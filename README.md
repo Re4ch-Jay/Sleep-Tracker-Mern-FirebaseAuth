@@ -8,12 +8,14 @@ This is for educational purpose on Mern Stack Application with the project named
 - Add your own set of sleep time, feeling
 - View sleep routine of others
 - Delete your own sleeping routines
+- Authentication with Google
 
 ###### Languages and technologies included in this project: 
 - React
 - Node 
 - Express
 - MongoDB
+- Firebase
 - Material UI
 - Framer Motion
 - Boostrap

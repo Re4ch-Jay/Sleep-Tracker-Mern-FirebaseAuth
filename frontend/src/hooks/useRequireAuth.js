@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContextProvider'
 
@@ -8,7 +8,7 @@ function useRequireAuth() {
     //required auth
   useEffect(() =>  {
     if(!isAuth) navigate('/login')
-  }, [navigate])
+  }, [navigate, isAuth])
   
 }
 
