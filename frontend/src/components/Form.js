@@ -11,8 +11,10 @@ import axios from 'axios'
 import {useNavigate} from "react-router-dom"
 import { TextareaAutosize } from '@mui/material';
 import {motion} from "framer-motion"
+import useRequireAuth from '../hooks/useRequireAuth';
 function Form() {
     const navigate = useNavigate()
+    useRequireAuth()
     const [name, setName] = useState('')
     const [days, setDays] = useState('Mon')
     const [feeling, setFeeling] = useState('Good');
@@ -40,7 +42,7 @@ function Form() {
     }
     
   return (
-    <motion.section
+   <motion.section
     initial={{x: "-100vw"}}
     animate={{x: 0}}
     transition={{delay: 0.5}}

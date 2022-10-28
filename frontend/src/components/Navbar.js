@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,11 +10,16 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
-import {Link} from 'react-router-dom'
-
+import {Link, useNavigate} from 'react-router-dom'
+import {signOut} from "firebase/auth"
+import { auth } from '../firebase-config';
+import { AuthContext } from '../context/AuthContextProvider';
 
 function Navbar() {
+  const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const {isAuth, setIsAuth} = useContext(AuthContext)
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -24,7 +29,13 @@ function Navbar() {
     setAnchorElNav(null);
   };
 
-  
+  const logoutUser = () => {
+    signOut(auth).then(res => {
+      localStorage.clear()
+      setIsAuth(false)
+      navigate('/login')
+    })
+  }
 
   return (
     <AppBar position="sticky">
@@ -97,6 +108,23 @@ function Navbar() {
                     </Typography>
                   </Link>
                 </MenuItem>
+                {!isAuth ? (
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Link to="/about">
+                    <Typography textAlign="center">
+                      Login
+                    </Typography>
+                  </Link>
+                </MenuItem>
+                ): 
+                <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/login">
+                  <Typography textAlign="center" onClick={logoutUser}>
+                    Logout
+                  </Typography>
+                </Link>
+              </MenuItem>
+              }
             </Menu>
           </Box>
           <AirlineSeatFlatIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -119,7 +147,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link to="/">
                 <Button
-                  onClick={handleCloseNavMenu}
+                  
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   Home
@@ -127,7 +155,7 @@ function Navbar() {
             </Link>
             <Link to="/feeds">
                 <Button
-                  onClick={handleCloseNavMenu}
+                 
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   Feeds
@@ -135,12 +163,29 @@ function Navbar() {
             </Link>
             <Link to="/about">
                 <Button
-                  onClick={handleCloseNavMenu}
+                 
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   About
                 </Button>
             </Link>
+            {!isAuth ? 
+            <Link to="/login">
+                <Button
+                 
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Login
+                </Button>
+            </Link>
+             :
+              <Button
+                onClick={logoutUser}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Logout
+              </Button>
+            }
           </Box>
 
         </Toolbar>

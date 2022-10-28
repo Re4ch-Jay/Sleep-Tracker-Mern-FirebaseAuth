@@ -17,21 +17,11 @@ import {formatDistanceToNow, format} from "date-fns"
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { motion } from "framer-motion";
-
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
+import useRequireAuth from "../hooks/useRequireAuth";
 
 function Feed() {
+
+  useRequireAuth()
   const [expanded, setExpanded] = useState(false);
   const [posts, setPosts] = useState([])
   const [error, setError] = useState(false)
@@ -72,6 +62,7 @@ function Feed() {
         console.log(err)
       })
   }
+ 
 
   return (
     <motion.section
@@ -156,3 +147,15 @@ function Feed() {
 }
 
 export default Feed
+
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
